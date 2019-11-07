@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:owomark/create_profile.dart';
 import 'package:owomark/home_screen.dart';
 import 'package:owomark/news_feed.dart';
+import 'package:owomark/wallet_screen.dart';
 
 import 'category_screen.dart';
 import 'chat_screen.dart';
@@ -65,6 +66,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
                 trailing: Icon(Icons.account_balance_wallet),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => WalletScreen())),
               ),
               Divider(),
               ListTile(
