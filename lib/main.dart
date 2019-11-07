@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:owomark/dashboard_screen.dart';
+import 'package:owomark/welcome.dart';
+import 'home_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,10 +22,11 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primaryColor: Colors.white,
+          primaryColor: Colors.blueAccent,
         accentColor: Color(0xFFFE9EB),
+          hintColor: Colors.blueAccent
       ),
-      home: DashboardScreen(),
+      home: WelcomePage(),
     );
   }
 }
