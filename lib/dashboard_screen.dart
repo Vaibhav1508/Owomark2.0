@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:owomark/cart_screen.dart';
 import 'package:owomark/create_profile.dart';
 import 'package:owomark/home_screen.dart';
 import 'package:owomark/news_feed.dart';
+import 'package:owomark/notification_screen.dart';
+import 'package:owomark/owosell_screen.dart';
 import 'package:owomark/wallet_screen.dart';
 
 import 'category_screen.dart';
@@ -50,13 +53,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
                 trailing: Icon(Icons.home),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => DashboardScreen())),
+
               ),
               ListTile(
                 title: Text(
-                  'Category',
+                  'Institutes',
                   style: TextStyle(fontSize: 16),
                 ),
-                trailing: Icon(Icons.library_books),
+                trailing: Icon(Icons.collections_bookmark),
                 onTap: () => Navigator.push(
                     context, MaterialPageRoute(builder: (_) => Category())),
               ),
@@ -70,6 +76,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     context, MaterialPageRoute(builder: (_) => WalletScreen())),
               ),
               Divider(),
+              ListTile(
+                title: Text(
+                  'Owosell',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: Icon(Icons.compare_arrows),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => OwosellScreen())),
+              ),
+
               ListTile(
                 title: Text(
                   'Profile',
@@ -96,6 +112,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
                 trailing: Icon(Icons.shopping_cart),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => CartScreen())),
               ),
               ListTile(
                 title: Text(
@@ -115,6 +133,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 trailing: Icon(Icons.notifications),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => NotificationScreen())),
+
               ),
               ListTile(
                 title: Text(

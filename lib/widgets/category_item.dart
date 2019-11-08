@@ -49,15 +49,10 @@ class CategoryItem extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             CircleAvatar(
-                              radius: 25.0,
+                              radius: 20.0,
                               backgroundColor: Colors.blue,
-                              child: Text(
-                                categoris.title.substring(0, 1),
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
+                              child: Icon(Icons.photo_library,
+                              color: Colors.white,)
                             ),
                             SizedBox(
                               width: 10.0,
@@ -75,18 +70,7 @@ class CategoryItem extends StatelessWidget {
                                 SizedBox(
                                   height: 5.0,
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.65,
-                                  child: Text(
-                                    categoris.description,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 15.0,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+
                               ],
                             )
                           ],
