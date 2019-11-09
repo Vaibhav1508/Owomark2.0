@@ -1,6 +1,7 @@
 import 'package:owomark/Animation/fade_animation.dart';
 import 'package:owomark/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:owomark/login_screen.dart';
 
 class WelcomePage extends StatefulWidget {
   static String get routeName => '@routes/welcome-page';
@@ -81,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage>
                               borderRadius: BorderRadius.circular(50)),
                           child: Center(
                             child: Text(
-                              "Get started",
+                              "Get Started",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -92,19 +93,30 @@ class _WelcomePageState extends State<WelcomePage>
                     )),
                 FadeAnimation(
                     1.7,
-                    Container(
-                      height: 50,
-                      decoration: BoxDecoration(
+                Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                        child: InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                          MaterialPageRoute(
+                          builder: (_) => LoginScreen())),
+                          child:Container(
+                                          height: 50,
+
+                        decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                           borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                        child: Text(
-                          "Create Account",
-                          style: TextStyle(
+                                child: Center(
+                                child: Text(
+                                "Login",
+                                style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    )),
+                    ),
+                        ),
+                ),
+                ),
               ],
             ),
           ),
