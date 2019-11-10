@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:owomark/login_screen.dart';
+import 'package:owomark/quiz.dart';
+
+import 'models/data.dart';
+
+Book book = books.elementAt(0);
 
 void main() => runApp(MyApp());
 
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blueAccent,
           accentColor: Color(0xFFFE9EB),
           hintColor: Colors.blueAccent),
-      home: LoginScreen(),
+      home: QuizScreen(),
     );
   }
 }
