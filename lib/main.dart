@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:owomark/quiz.dart';
+import 'package:owomark/welcome.dart';
 
 import 'models/data.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blueAccent,
           accentColor: Color(0xFFFE9EB),
           hintColor: Colors.blueAccent),
-      home: QuizScreen(),
+      home: WelcomePage(),
     );
   }
 }
