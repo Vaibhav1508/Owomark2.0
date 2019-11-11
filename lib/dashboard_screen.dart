@@ -10,6 +10,7 @@ import 'package:owomark/notification_screen.dart';
 import 'package:owomark/owosell_screen.dart';
 import 'package:owomark/products_screen.dart';
 import 'package:owomark/projects.dart';
+import 'package:owomark/quiz.dart';
 import 'package:owomark/single_event.dart';
 import 'package:owomark/single_institute.dart';
 import 'package:owomark/single_product.dart';
@@ -82,6 +83,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 trailing: Icon(Icons.account_balance_wallet),
                 onTap: () => Navigator.push(
                     context, MaterialPageRoute(builder: (_) => WalletScreen())),
+              ),
+              ListTile(
+                title: Text(
+                  'Owoquiz',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: Icon(Icons.note),
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => QuizScreen())),
               ),
               Divider(),
               ListTile(
