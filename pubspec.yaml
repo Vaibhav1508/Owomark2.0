@@ -18,7 +18,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  page_transition: ^1.1.4
   simple_animations: ^1.3.3
   rxdart: 0.22.2
 

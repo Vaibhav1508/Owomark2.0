@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:owomark/cart_screen.dart';
+import 'package:owomark/competitions.dart';
 import 'package:owomark/create_profile.dart';
+import 'package:owomark/event_screen.dart';
 import 'package:owomark/home_screen.dart';
 import 'package:owomark/news_feed.dart';
 import 'package:owomark/notification_screen.dart';
 import 'package:owomark/owosell_screen.dart';
+import 'package:owomark/products_screen.dart';
+import 'package:owomark/projects.dart';
+import 'package:owomark/single_event.dart';
+import 'package:owomark/single_institute.dart';
+import 'package:owomark/single_product.dart';
 import 'package:owomark/wallet_screen.dart';
 
 import 'category_screen.dart';
 import 'chat_screen.dart';
+import 'institute.dart';
 import 'models/message_model.dart';
 import 'orders_screen.dart';
 
@@ -166,15 +174,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           elevation: 4.0,
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.image),
+                icon: Icon(Icons.search),
                 iconSize: 30.0,
                 color: Colors.grey,
-                onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => NewsFeed(),
-                      ),
-                    )),
+               ),
             IconButton(
                 icon: Icon(Icons.shopping_cart),
                 iconSize: 30.0,
@@ -245,7 +248,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+                 GestureDetector(
+                   child:  Text("All"),
+                   onTap: ()=> Navigator.push(context,
+                   MaterialPageRoute(
+                     builder: (_)=> ProductsScreen()
+                   )
+                   ),
+                 )
                 ],
               ),
               SizedBox(
@@ -253,19 +263,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Container(
                 height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                    makeCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                  ],
-                ),
+                child: GestureDetector(
+                  child: ListView(
+
+                    scrollDirection: Axis.horizontal,
+
+                    children: <Widget>[
+                      makeCategory(
+                          image: 'assets/images/clothes.jpg', title: 'Cll'),
+                      makeCategory(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                      makeCategory(
+                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
+                      makeCategory(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                    ],
+                  ),
+                  onTap:()=> Navigator.push(context,MaterialPageRoute(
+                    builder: (_)=>SingleProduct()
+                  )),
+                )
               ),
               SizedBox(
                 height: 40,
@@ -280,7 +297,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+
                 ],
               ),
               SizedBox(
@@ -315,7 +332,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+                  GestureDetector(
+                    child:  Text("All"),
+                    onTap: ()=> Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (_)=> Institute()
+                        )
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -323,20 +347,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Container(
                 height: 140,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeInstitute(
-                        image: 'assets/images/clothes.jpg',
-                        title: 'Angle Classes'),
-                    makeInstitute(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                    makeInstitute(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeInstitute(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                  ],
-                ),
+                child: GestureDetector(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      makeInstitute(
+                          image: 'assets/images/clothes.jpg',
+                          title: 'Angle Classes'),
+                      makeInstitute(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                      makeInstitute(
+                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
+                      makeInstitute(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                    ],
+                  ),
+                  onTap: ()=> Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (_)=> SingleInstitute()
+                      )
+                  ),
+                )
               ),
               SizedBox(
                 height: 40,
@@ -351,7 +382,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+                  GestureDetector(
+                    child:
+                    Text("All"),
+                    onTap:()=> Navigator.push(context,
+                    MaterialPageRoute(
+                      builder: (_)=> EventScreen()
+                    )),
+                  )
                 ],
               ),
               SizedBox(
@@ -359,20 +397,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Container(
                 height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeActivity(
-                        image: 'assets/images/clothes.jpg',
-                        title: 'Treasure Hunt'),
-                    makeActivity(
-                        image: 'assets/images/glass.jpg', title: 'Cpp Coding'),
-                    makeActivity(
-                        image: 'assets/images/clothes.jpg', title: 'Pubg'),
-                    makeActivity(
-                        image: 'assets/images/glass.jpg', title: 'Quiz'),
-                  ],
-                ),
+                child: GestureDetector(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      makeActivity(
+                          image: 'assets/images/clothes.jpg',
+                          title: 'Treasure Hunt'),
+                      makeActivity(
+                          image: 'assets/images/glass.jpg', title: 'Cpp Coding'),
+                      makeActivity(
+                          image: 'assets/images/clothes.jpg', title: 'Pubg'),
+                      makeActivity(
+                          image: 'assets/images/glass.jpg', title: 'Quiz'),
+                    ],
+                  ),
+                  onTap:()=> Navigator.push(context, MaterialPageRoute(
+                    builder: (_) => SingleEvent()
+                  )),
+                )
               ),
               SizedBox(
                 height: 40,
@@ -381,13 +424,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Paying Guest",
+                    "Competitions",
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+                  GestureDetector(
+                    child:
+                    Text("All"),
+                    onTap:()=> Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (_)=> Competitions()
+                        )),
+                  )
                 ],
               ),
               SizedBox(
@@ -395,19 +445,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Container(
                 height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeBestCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeBestCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                    makeBestCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeBestCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                  ],
-                ),
+                child: GestureDetector(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      makeBestCategory(
+                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
+                      makeBestCategory(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                      makeBestCategory(
+                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
+                      makeBestCategory(
+                          image: 'assets/images/glass.jpg', title: 'Glass'),
+                    ],
+                  ),
+                  onTap:()=> Navigator.push(context, MaterialPageRoute(
+                    builder: (_)=> NewsFeed()
+                  )),
+                )
               ),
               SizedBox(
                 height: 40,
@@ -422,7 +477,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text("All")
+                  GestureDetector(
+                    child:  Text("All"),
+                    onTap: ()=> Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (_)=> Projects()
+                        )
+                    ),
+                  )
                 ],
               ),
               SizedBox(
