@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 
 import 'api_interface.dart';
 import 'dashboard_screen.dart';
-import 'models/event_item.dart';
+import 'models/project_item.dart';
 
-class SingleEvent extends StatefulWidget {
-  final String event_id;
+class SingleProject extends StatefulWidget {
+  final String project_id;
 
-  SingleEvent({Key key, this.event_id}) : super(key: key);
+  SingleProject({Key key, this.project_id}) : super(key: key);
 
   @override
-  _SingleEventState createState() => _SingleEventState();
+  _SingleProjectState createState() => _SingleProjectState();
 }
 
-class _SingleEventState extends State<SingleEvent> {
+class _SingleProjectState extends State<SingleProject> {
   ApiInterface apiInterface = new ApiInterface();
 
   //Event List
-  List<EventItem> events = new List();
+  List<ProjectItem> projects = new List();
 
-  String eventurl = 'http://owomark.com/owomarkapp/images/events/';
+  String projecturl = 'http://owomark.com/owomarkapp/images/projects/';
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +39,8 @@ class _SingleEventState extends State<SingleEvent> {
                     builder: (_) => DashboardScreen(),
                   ),
                 )),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add_circle),
-            iconSize: 30,
-            color: Colors.red,
-          )
-        ],
         title: Text(
-          'Event Details',
+          'Project Details',
           style: TextStyle(color: Colors.black),
           //textAlign: TextAlign.center,
         ),
@@ -56,21 +49,21 @@ class _SingleEventState extends State<SingleEvent> {
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: ListView.builder(
-            itemCount: events.length,
+            itemCount: projects.length,
             itemBuilder: (BuildContext context, int index) {
-              final item = events[index];
+              final item = projects[index];
 
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Image.network(
-                      eventurl + item.imageUrl,
+                      projecturl + item.imageUrl,
                       height: 200,
                       width: MediaQuery.of(context).size.width * 5,
                     ),
                     ListTile(
                       title: Text(
-                        'Event Title',
+                        'Project Title',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
@@ -82,31 +75,19 @@ class _SingleEventState extends State<SingleEvent> {
                     Divider(),
                     ListTile(
                       title: Text(
-                        'Event Timing',
+                        'Project Description',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       trailing: Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
-                      title: Text(item.time),
+                      title: Text(item.desc),
                     ),
                     Divider(),
                     ListTile(
                       title: Text(
-                        'Event Location',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                    ),
-                    ListTile(
-                      title: Text(item.location),
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text(
-                        'Event Price ',
+                        'Project Price',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
@@ -114,7 +95,7 @@ class _SingleEventState extends State<SingleEvent> {
                     ),
                     ListTile(
                       title: Text(
-                        item.price + ' Rs',
+                        item.price + " Rs",
                         style: TextStyle(color: Colors.orange, fontSize: 22),
                       ),
                     ),
@@ -125,6 +106,30 @@ class _SingleEventState extends State<SingleEvent> {
                     Divider(),
                     ListTile(
                       title: Text('Additional Details 2'),
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text(item.fname + " " + item.lname),
+                      trailing: Column(
+                        children: <Widget>[
+                          Text(
+                            'Message',
+                            style: TextStyle(fontSize: 16, color: Colors.blue),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Icon(Icons.email)
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          Icons.person_outline,
+                          color: Colors.white,
+                        ),
+                        radius: 25,
+                      ),
                     )
                   ],
                 ),
@@ -143,7 +148,7 @@ class _SingleEventState extends State<SingleEvent> {
   getEvents(context) async {
     setState(() {});
 
-    Future<dynamic> response = apiInterface.getSingleEvent(widget.event_id);
+    Future<dynamic> response = apiInterface.getSingleProject(widget.project_id);
 
     response.then((action) async {
       print(action.toString());
@@ -152,8 +157,8 @@ class _SingleEventState extends State<SingleEvent> {
         if (data["status"] == "200") {
           List<dynamic> list = data['result'];
           for (int i = 0; i < list.length; i++) {
-            EventItem notificationItem = EventItem.fromMap(list[i]);
-            events.add(notificationItem);
+            ProjectItem notificationItem = ProjectItem.fromMap(list[i]);
+            projects.add(notificationItem);
           }
           setState(() {});
         } else {

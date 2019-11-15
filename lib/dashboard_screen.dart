@@ -17,6 +17,7 @@ import 'package:owomark/quiz.dart';
 import 'package:owomark/single_event.dart';
 import 'package:owomark/single_institute.dart';
 import 'package:owomark/single_product.dart';
+import 'package:owomark/single_project.dart';
 import 'package:owomark/wallet_screen.dart';
 
 import 'api_interface.dart';
@@ -582,8 +583,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           final item = projects[index];
 
-                          return makeProject(
-                              image: projurl + item.imageUrl, title: item.name);
+                          return GestureDetector(
+                            child: makeProject(
+                                image: projurl + item.imageUrl,
+                                title: item.name),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SingleProject(
+                                          project_id: item.id,
+                                        ))),
+                          );
                         },
                       ),
                     ),

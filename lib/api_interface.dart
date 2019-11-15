@@ -86,10 +86,26 @@ class ApiInterface {
     return response;
   }
 
+  getAllProjects(String userId) async {
+    Map<String, dynamic> data = new Map();
+    data['user_id'] = 'id';
+    response = await dio.post(baseUrl + "/getAllProjects",
+        data: data, options: options);
+    return response;
+  }
+
   getInstituteByUser(String userId) async {
     Map<String, dynamic> data = new Map();
     data['user_id'] = userId;
     response = await dio.post(baseUrl + "/getInstituteByUser",
+        data: data, options: options);
+    return response;
+  }
+
+  getSingleProject(String userId) async {
+    Map<String, dynamic> data = new Map();
+    data['p_id'] = userId;
+    response = await dio.post(baseUrl + "/getProjectById",
         data: data, options: options);
     return response;
   }
