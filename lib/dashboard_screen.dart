@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:owomark/cart_screen.dart';
@@ -5,6 +7,7 @@ import 'package:owomark/competitions.dart';
 import 'package:owomark/create_profile.dart';
 import 'package:owomark/event_screen.dart';
 import 'package:owomark/home_screen.dart';
+import 'package:owomark/models/category_item.dart';
 import 'package:owomark/news_feed.dart';
 import 'package:owomark/notification_screen.dart';
 import 'package:owomark/owosell_screen.dart';
@@ -16,10 +19,15 @@ import 'package:owomark/single_institute.dart';
 import 'package:owomark/single_product.dart';
 import 'package:owomark/wallet_screen.dart';
 
+import 'api_interface.dart';
 import 'category_screen.dart';
 import 'chat_screen.dart';
 import 'institute.dart';
-import 'models/message_model.dart';
+import 'models/book_item.dart';
+import 'models/competition_item.drt.dart';
+import 'models/event_item.dart';
+import 'models/institute_item.dart';
+import 'models/project_item.dart';
 import 'orders_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -28,6 +36,42 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+
+  final GlobalKey<ScaffoldState> _scafflodKey = new GlobalKey<ScaffoldState>();
+
+  ApiInterface apiInterface = new ApiInterface();
+
+  //Category List
+  List<CategoryItem> notifications = new List();
+
+  //Book List
+  List<BookItem> books = new List();
+
+
+  //Best deal List
+  List<BookItem> deals = new List();
+
+  //Event List
+  List<EventItem> events = new List();
+
+  //Competition List
+  List<CompetitionItem> competitions = new List();
+
+  //Projects List
+  List<ProjectItem> projects = new List();
+
+  //Institute List
+  List<InstituteItem> institutes = new List();
+
+
+  String categoryurl = 'http://owomark.com/owomarkapp/images/icon/';
+  String producturl = 'http://owomark.com/owomarkapp/images/product/';
+  String eventurl = 'http://owomark.com/owomarkapp/images/events/';
+  String compurl = 'http://owomark.com/owomarkapp/images/competition/';
+  String projurl = 'http://owomark.com/owomarkapp/images/projects/';
+  String insturl = 'http://owomark.com/owomarkapp/images/classes/';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,16 +212,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         backgroundColor: Colors.white,
+        key: _scafflodKey,
+
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
               icon: Icon(Icons.menu),
               iconSize: 30.0,
               color: Colors.black,
-              onPressed: () {}),
+              onPressed: () => _scafflodKey.currentState.openDrawer() ),
           title: Text(
             'Owomark',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black,),
             textAlign: TextAlign.center,
             //textAlign: TextAlign.center,
           ),
@@ -195,7 +241,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => HomeScreen(),
+                        builder: (_) => CartScreen(),
                       ),
                     )),
           ],
@@ -204,18 +250,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
           padding: EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
-              Container(
+              notifications.length == 0
+                  ? Center(
+                child: Text(
+                  "No Data Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              )
+                  :Container(
                 height: 115,
                 child: ListView.builder(
-                  itemCount: category.length,
+                  itemCount: notifications.length,
                   scrollDirection: Axis.horizontal,
+
                   padding: EdgeInsets.only(left: 10.0),
                   itemBuilder: (BuildContext context, int index) {
+                    final item = notifications[index];
                     return GestureDetector(
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => ChatScreen(),
+                          builder: (_) => Category(panel_id : item.id),
                         ),
                       ),
                       child: Padding(
@@ -224,18 +279,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 35.0,
-                              backgroundImage:
-                                  AssetImage(category[index].imageUrl),
+                              backgroundImage:NetworkImage(categoryurl+item.imageUrl),
                             ),
                             SizedBox(
                               height: 6.0,
                             ),
                             Text(
-                              category[index].name,
+                              item.name,
                               style: TextStyle(
-                                color: Colors.blueGrey,
                                 fontSize: 16.0,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
@@ -271,28 +324,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
+              books.length == 0
+                  ? Center(
+                child: Text(
+                  "No Data Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              ):Container(
                 height: 100,
-                child: GestureDetector(
-                  child: ListView(
+                child: ListView.builder(itemCount: books.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context,int index){
+                    final item = books[index];
 
-                    scrollDirection: Axis.horizontal,
+                    return  GestureDetector(
+                      child: makeCategory(
+                          image: producturl+item.imageUrl, title:item.amount),
+                      onTap: ()=> Navigator.push(context, MaterialPageRoute(
+                          builder: (_)=>SingleProduct(product_id: item.id,)
+                      )),
+                    );
 
-                    children: <Widget>[
-                      makeCategory(
-                          image: 'assets/images/clothes.jpg', title: 'Cll'),
-                      makeCategory(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                      makeCategory(
-                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                      makeCategory(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                    ],
-                  ),
-                  onTap:()=> Navigator.push(context,MaterialPageRoute(
-                    builder: (_)=>SingleProduct()
-                  )),
-                )
+                  },),
               ),
               SizedBox(
                 height: 40,
@@ -313,21 +366,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeBestCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeBestCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                    makeBestCategory(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeBestCategory(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                  ],
+              deals.length == 0
+                  ? Center(
+                child: Text(
+                  "No Data Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
+              ):Container(
+                  height: 100,
+                  child: ListView.builder(itemCount: deals.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context,int index){
+                      final item = deals[index];
+
+                      return  GestureDetector(
+                        child: makeBestCategory(
+                            image: producturl+item.imageUrl, title:item.discount),
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(
+                            builder: (_)=>SingleProduct(product_id: item.id,)
+                        )),
+                      );
+
+                    },),
               ),
               SizedBox(
                 height: 40,
@@ -355,23 +415,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 140,
+              institutes.length == 0
+                  ? Center(
+                child: Text(
+                  "No Data Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              ):Container(
+                height: 130,
                 child: GestureDetector(
-                  child: ListView(
+                  child:ListView.builder(itemCount: institutes.length,
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      makeInstitute(
-                          image: 'assets/images/clothes.jpg',
-                          title: 'Angle Classes'),
-                      makeInstitute(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                      makeInstitute(
-                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                      makeInstitute(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                    ],
-                  ),
+                    itemBuilder: (BuildContext context,int index){
+                      final item = institutes[index];
+
+                      return makeInstitute(
+                          image: insturl+item.imageUrl, title: item.name);
+
+                    },),
                   onTap: ()=> Navigator.push(context,
                       MaterialPageRoute(
                           builder: (_)=> SingleInstitute()
@@ -386,7 +447,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Activitiy Events",
+                    "Events",
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -405,23 +466,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 100,
+              events.length == 0
+                  ? Center(
+                child: Text(
+                  "No Data Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              ):Container(
+                height: 130,
                 child: GestureDetector(
-                  child: ListView(
+                  child: ListView.builder(itemCount: events.length,
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      makeActivity(
-                          image: 'assets/images/clothes.jpg',
-                          title: 'Treasure Hunt'),
-                      makeActivity(
-                          image: 'assets/images/glass.jpg', title: 'Cpp Coding'),
-                      makeActivity(
-                          image: 'assets/images/clothes.jpg', title: 'Pubg'),
-                      makeActivity(
-                          image: 'assets/images/glass.jpg', title: 'Quiz'),
-                    ],
-                  ),
+                    itemBuilder: (BuildContext context,int index){
+                      final item = events[index];
+
+                      return makeActivity(
+                          image: eventurl+item.imageUrl, title: item.name);
+
+                    },),
                   onTap:()=> Navigator.push(context, MaterialPageRoute(
                     builder: (_) => SingleEvent()
                   )),
@@ -453,22 +515,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 100,
+              competitions.length == 0
+                  ? Center(
+                child: Text(
+                  "No Competition Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                ),
+              ):Container(
+                height: 130,
                 child: GestureDetector(
-                  child: ListView(
+                  child: ListView.builder(itemCount: competitions.length,
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      makeBestCategory(
-                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                      makeBestCategory(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                      makeBestCategory(
-                          image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                      makeBestCategory(
-                          image: 'assets/images/glass.jpg', title: 'Glass'),
-                    ],
-                  ),
+                    itemBuilder: (BuildContext context,int index){
+                      final item = competitions[index];
+
+                      return makepg(
+                          image: compurl+item.imageUrl, title: item.name);
+
+                    },),
                   onTap:()=> Navigator.push(context, MaterialPageRoute(
                     builder: (_)=> NewsFeed()
                   )),
@@ -500,39 +564,250 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    makeProject(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeProject(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                    makeProject(
-                        image: 'assets/images/clothes.jpg', title: 'Clothes'),
-                    makeProject(
-                        image: 'assets/images/glass.jpg', title: 'Glass'),
-                  ],
+              projects.length == 0
+                  ? Center(
+                child: Text(
+                  "No Projects Found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
+              ): Container(
+                height: 130,
+                child: ListView.builder(itemCount: projects.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context,int index){
+                    final item = projects[index];
+
+                    return makeProject(
+                        image: projurl+item.imageUrl, title: item.name);
+
+                  },),
               ),
             ],
           ),
         ));
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    getNotifications(context);
+    getDashboardBooks(context);
+    getDashboardEvents(context);
+    getCompetitions(context);
+    getBestDeals(context);
+    getProjects(context);
+    getInstitutes(context);
+  }
+
+  getNotifications(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getNotification('1');
+
+    response.then((action) async {
+
+     // print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            CategoryItem notificationItem = CategoryItem.fromMap(list[i]);
+            notifications.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+  //BEst Dels Api
+
+  getBestDeals(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getDeals('1');
+
+    response.then((action) async {
+
+      // print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            BookItem notificationItem = BookItem.fromMap(list[i]);
+            deals.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+  //Projects Api
+
+  getProjects(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getProjects('1');
+
+    response.then((action) async {
+
+      // print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            ProjectItem notificationItem = ProjectItem.fromMap(list[i]);
+            projects.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+  //Competitions Api
+
+  getCompetitions(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getCompetition('1');
+
+    response.then((action) async {
+
+       //print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            CompetitionItem notificationItem = CompetitionItem.fromMap(list[i]);
+            competitions.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+
+  //Books Api
+
+  getDashboardBooks(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getDashboardBooks('1');
+
+    response.then((action) async {
+
+     // print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            BookItem bookItem = BookItem.fromMap(list[i]);
+            books.add(bookItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+
+  //Events API
+
+  getDashboardEvents(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getDashboardEvents('1');
+
+    response.then((action) async {
+
+      //print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            EventItem eventItem = EventItem.fromMap(list[i]);
+            events.add(eventItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+  getInstitutes(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getInstitutes('1');
+
+    response.then((action) async {
+
+      print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            InstituteItem eventItem = InstituteItem.fromMap(list[i]);
+            institutes.add(eventItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
+
+
   Widget makeCategory({String image, String title}) {
     return AspectRatio(
       child: Container(
         margin: EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(0),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(0),
                 gradient: LinearGradient(begin: Alignment.bottomRight, colors: [
                   Colors.black.withOpacity(.8),
                   Colors.black.withOpacity(.2),
@@ -548,7 +823,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             )),
       ),
-      aspectRatio: 2 / 2.2,
+      aspectRatio: 2 / 2.5,
     );
   }
 
@@ -559,7 +834,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -579,22 +854,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             )),
       ),
-      aspectRatio: 2 / 2.2,
+      aspectRatio: 5 / 2.5,
     );
   }
 
   Widget makeBestCategory({String image, String title}) {
     return AspectRatio(
       child: Container(
-        margin: EdgeInsets.only(right: 20),
+        margin: EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(0),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+            DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(0),
                 gradient: LinearGradient(begin: Alignment.bottomRight, colors: [
                   Colors.black.withOpacity(.8),
                   Colors.black.withOpacity(.2),
@@ -602,7 +877,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                title,
+                title+" % Off",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -610,7 +885,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             )),
       ),
-      aspectRatio: 4 / 2.1,
+      aspectRatio: 2 / 2.5,
     );
   }
 
@@ -621,7 +896,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -649,7 +924,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
-      aspectRatio: 5 / 2.1,
+      aspectRatio: 5 / 2.5,
     );
   }
 
@@ -660,7 +935,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -688,7 +963,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
-      aspectRatio: 4 / 2.1,
+      aspectRatio: 5 / 2.5,
     );
   }
 
@@ -699,7 +974,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -727,7 +1002,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
-      aspectRatio: 4 / 2.1,
+      aspectRatio: 4 / 2,
     );
   }
 }

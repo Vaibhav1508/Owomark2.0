@@ -214,6 +214,7 @@ class _InstituteState extends State<Institute> {
           Text('Add your Institute ',
             style: TextStyle(
               fontSize: 16,
+              fontFamily: 'maven_black',
               color: Colors.black87,
             ),),
           SizedBox(

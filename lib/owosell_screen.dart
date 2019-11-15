@@ -216,6 +216,7 @@ class _OwosellScreenState extends State<OwosellScreen> {
           Text('Add your Book ',
             style: TextStyle(
               fontSize: 16,
+              fontFamily: 'maven_black',
               color: Colors.black87,
             ),),
           SizedBox(
@@ -366,7 +367,7 @@ Widget makeBestCategory({String image, String title}) {
 
         ListTile(
           title:  Text("View More",
-            style: TextStyle(fontSize: 16),),
+            style: TextStyle(fontSize: 16,fontFamily: 'maven_black'),),
           trailing: Icon(Icons.arrow_forward_ios),
         ),
       ],

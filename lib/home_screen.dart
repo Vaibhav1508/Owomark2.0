@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )),
         title: Text(
-          'Chats',
+          'Messages',
           style: TextStyle(color: Colors.black),
           //textAlign: TextAlign.center,
         ),

@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:owomark/models/institute_item.dart';
 import 'package:owomark/models/mybook_model.dart';
 import 'package:owomark/models/myinstitute_model.dart';
+
+import '../api_interface.dart';
 
 class MyInstitute extends StatefulWidget {
   @override
@@ -8,10 +13,25 @@ class MyInstitute extends StatefulWidget {
 }
 
 class _MyInstituteState extends State<MyInstitute> {
+
+  ApiInterface apiInterface = new ApiInterface();
+
+  //Category List
+  List<InstituteItem> institutes = new List();
+
+
+  String insturl = 'http://owomark.com/owomarkapp/images/classes/';
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child: institutes.length == 0
+          ? Center(
+        child: Text(
+          "No Institute Yet, Lets Add One",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
+      ):Container(
           padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
           margin: EdgeInsets.only(top: 0.0, bottom: 0.0, right: 0.0),
           decoration: BoxDecoration(
@@ -24,10 +44,10 @@ class _MyInstituteState extends State<MyInstitute> {
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0)),
             child: ListView.builder(
-              itemCount: inst.length,
+              itemCount: institutes.length,
               itemBuilder: (BuildContext context, int index) {
 
-
+                final item = institutes[index];
                 return GestureDetector(
 
                   child: Container(
@@ -45,13 +65,15 @@ class _MyInstituteState extends State<MyInstitute> {
                         Row(
                           children: <Widget>[
                             CircleAvatar(
-                              radius: 20.0,
-                              backgroundColor: Colors.blue,
+                              radius: 30.0,
+                             /* backgroundColor: Colors.blue,
                               child: Icon(
                                 Icons.book,
                                 color: Colors.white,
                                 size: 25,
-                              ),
+
+                              ),*/
+                              backgroundImage: NetworkImage(insturl+item.imageUrl),
                             ),
                             SizedBox(
                               width: 10.0,
@@ -60,10 +82,10 @@ class _MyInstituteState extends State<MyInstitute> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  inst[index].title,
+                                  item.name,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 15.0,
+                                      fontSize: 20.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -71,15 +93,26 @@ class _MyInstituteState extends State<MyInstitute> {
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.50,
-                                  child: Text(
-                                    inst[index].text,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 15.0,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  MediaQuery.of(context).size.width * 0.30,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        item.location,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        "Inactive",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 18.0,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  )
                                 ),
                               ],
                             )
@@ -87,6 +120,14 @@ class _MyInstituteState extends State<MyInstitute> {
                         ),
                         Row(
                           children: <Widget>[
+                            Text(
+                              item.rate
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.star,
+                                color: Colors.orange,),
+
+                            ),
                             IconButton(
                               icon: Icon(Icons.restore_from_trash,
                                 color: Colors.red,),
@@ -103,4 +144,39 @@ class _MyInstituteState extends State<MyInstitute> {
           )),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getInstitutes(context);
+  }
+
+  getInstitutes(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getInstituteByUser('17');
+
+    response.then((action) async {
+
+       print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            InstituteItem notificationItem = InstituteItem.fromMap(list[i]);
+            institutes.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
 }
+
+

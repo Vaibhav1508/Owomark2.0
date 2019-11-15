@@ -7,8 +7,10 @@ import 'package:owomark/subcategory.dart';
 import 'package:owomark/widgets/subcategory_item.dart';
 
 class CategoryItem extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return Expanded(
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
@@ -31,7 +33,7 @@ class CategoryItem extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => SubCategory(),
+                     // builder: (_) => SubCategory(),
                     ),
                   ),
                   child: Container(
@@ -64,7 +66,7 @@ class CategoryItem extends StatelessWidget {
                                   categoris.title,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                   ),
                                 ),
                                 SizedBox(

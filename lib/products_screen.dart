@@ -1,13 +1,34 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:owomark/models/book_item.dart';
+import 'package:owomark/single_product.dart';
+import 'package:owomark/subcategory.dart';
+
+import 'api_interface.dart';
 import 'dashboard_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
+
+  final String cat_id;
+  final String sub_id;
+
+
+  ProductsScreen({Key key,this.cat_id,this.sub_id}) : super(key: key);
+
   @override
   _ProductsScreenState createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+
+  ApiInterface apiInterface = new ApiInterface();
+  //Category List
+  List<BookItem> books = new List();
+
+  String producturl = 'http://owomark.com/owomarkapp/images/product/';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +42,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => DashboardScreen(),
+                builder: (_) => SubCategorys(cat_id: widget.cat_id),
               ),
             )),
         title: Text(
@@ -31,24 +52,71 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ),
         elevation: 3.0,
       ),
-      body: Container(
+      body:  books.length == 0
+          ? Center(
+        child: Text(
+          "No Products Found",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
+      ):Container(
         padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
         height: double.infinity,
 
         child: GridView.count(crossAxisCount: 2,
         scrollDirection: Axis.vertical,
-        children: List.generate(6, (index){
-          return  makeBestCategory(
-              image: 'assets/images/clothes.jpg', title: 'Clothes');
+
+        children: List.generate(books.length, (index){
+
+          final item = books[index];
+
+          return  GestureDetector(
+            child: makeBestCategory(
+                image: producturl+item.imageUrl, title:item.name,price: item.amount ),
+            onTap: ()=> Navigator.push(context, MaterialPageRoute(
+              builder: (_)=>SingleProduct(product_id: item.id,)
+            )),
+          );
         })),
       ),
 
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getSubCategory(context);
+  }
+
+  getSubCategory(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getProducts(widget.sub_id);
+
+    response.then((action) async {
+
+      print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            BookItem notificationItem = BookItem.fromMap(list[i]);
+            books.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
 }
 
 
-Widget makeBestCategory({String image, String title}) {
+Widget makeBestCategory({String image, String title,String price}) {
   return Column(
 
       children: <Widget>[
@@ -58,7 +126,7 @@ Widget makeBestCategory({String image, String title}) {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               image:
-              DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+              DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
           child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -78,7 +146,7 @@ Widget makeBestCategory({String image, String title}) {
               )),
         ),
         ListTile(
-          title: Text('200 Rs',style: TextStyle(
+          title: Text(price+' Rs',style: TextStyle(
             fontSize: 18,
             //color: Colors.green,
             fontWeight: FontWeight.bold
@@ -88,4 +156,6 @@ Widget makeBestCategory({String image, String title}) {
 
       ],
     );
+
+
 }

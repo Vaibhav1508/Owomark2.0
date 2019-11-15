@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:owomark/models/order_model.dart';
+import 'package:owomark/models/transaction_item.dart';
 import 'package:owomark/models/transaction_model.dart';
 
+import '../api_interface.dart';
 import '../chat_screen.dart';
 
 class Transaction extends StatefulWidget {
@@ -10,10 +14,23 @@ class Transaction extends StatefulWidget {
 }
 
 class _TransactionState extends State<Transaction> {
+
+  ApiInterface apiInterface = new ApiInterface();
+
+  //Category List
+  List<TransactionItem> trans = new List();
+
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child:  trans.length == 0
+          ? Center(
+        child: Text(
+          "No Transaction Found",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
+      ):Container(
           padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
           margin: EdgeInsets.only(top: 0.0, bottom: 0.0, right: 0.0),
           decoration: BoxDecoration(
@@ -26,9 +43,9 @@ class _TransactionState extends State<Transaction> {
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0)),
             child: ListView.builder(
-              itemCount: transactions.length,
+              itemCount: trans.length,
               itemBuilder: (BuildContext context, int index) {
-                final Transactions transaction = transactions[index];
+                final TransactionItem item = trans[index];
 
                 return GestureDetector(
 
@@ -38,7 +55,7 @@ class _TransactionState extends State<Transaction> {
                     padding:
                     EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     decoration: BoxDecoration(
-                        color: transaction.delivered ? Colors.white : Colors.white,
+                        color: Colors.white,
                         border:
                         Border(bottom: BorderSide(color: Colors.black12))),
                     child: Row(
@@ -62,7 +79,7 @@ class _TransactionState extends State<Transaction> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  transaction.title,
+                                  item.name,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 15.0,
@@ -75,7 +92,7 @@ class _TransactionState extends State<Transaction> {
                                   width:
                                   MediaQuery.of(context).size.width * 0.50,
                                   child: Text(
-                                    transaction.text,
+                                    'on '+item.created,
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 15.0,
@@ -89,8 +106,8 @@ class _TransactionState extends State<Transaction> {
                         ),
                         Column(
                           children: <Widget>[
-                            transaction.delivered ? Text(
-                              '+ ' + transaction.price + ' Rs.',
+                            item.paid == "0" ? Text(
+                              '+ ' + item.amount + ' Rs.',
                               style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
@@ -98,7 +115,7 @@ class _TransactionState extends State<Transaction> {
                               ),
                             ):
                             Text(
-                              '- ' + transaction.price + ' Rs.',
+                              '- ' + item.amount + ' Rs.',
                               style: TextStyle(
                                 color:Colors.red,
                                 fontWeight: FontWeight.bold,
@@ -120,4 +137,37 @@ class _TransactionState extends State<Transaction> {
           )),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getTransactions(context);
+  }
+
+  getTransactions(context) async {
+    setState(() {});
+
+    Future<dynamic> response = apiInterface.getTransactions('1');
+
+    response.then((action) async {
+
+       print(action.toString());
+      if (action != null) {
+        Map data = jsonDecode(action.toString());
+        if (data["status"] == "200") {
+          List<dynamic> list = data['result'];
+          for (int i = 0; i < list.length; i++) {
+            TransactionItem notificationItem = TransactionItem.fromMap(list[i]);
+            trans.add(notificationItem);
+          }
+          setState(() {});
+        } else {
+          print('error');
+        }
+      }
+    }, onError: (value) {
+      print(value);
+    });
+  }
+
 }

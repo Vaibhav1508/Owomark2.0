@@ -97,10 +97,11 @@ class _WalletScreenState extends State<WalletScreen> {
             height: 20,
           ),
 
-          Text('Recharge with Wallet with Coupon ',
+          Text('Recharge your wallet with Coupon ',
             style: TextStyle(
               fontSize: 16,
               color: Colors.black87,
+                fontFamily: 'maven_black'
             ),),
 
 
