@@ -21,7 +21,6 @@ import 'package:owomark/wallet_screen.dart';
 
 import 'api_interface.dart';
 import 'category_screen.dart';
-import 'chat_screen.dart';
 import 'institute.dart';
 import 'models/book_item.dart';
 import 'models/competition_item.drt.dart';
@@ -36,7 +35,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-
   final GlobalKey<ScaffoldState> _scafflodKey = new GlobalKey<ScaffoldState>();
 
   ApiInterface apiInterface = new ApiInterface();
@@ -46,7 +44,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   //Book List
   List<BookItem> books = new List();
-
 
   //Best deal List
   List<BookItem> deals = new List();
@@ -63,14 +60,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //Institute List
   List<InstituteItem> institutes = new List();
 
-
   String categoryurl = 'http://owomark.com/owomarkapp/images/icon/';
   String producturl = 'http://owomark.com/owomarkapp/images/product/';
   String eventurl = 'http://owomark.com/owomarkapp/images/events/';
   String compurl = 'http://owomark.com/owomarkapp/images/competition/';
   String projurl = 'http://owomark.com/owomarkapp/images/projects/';
   String insturl = 'http://owomark.com/owomarkapp/images/classes/';
-
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +101,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
                 trailing: Icon(Icons.home),
-                onTap: () => Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => DashboardScreen())),
-
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => DashboardScreen())),
               ),
               ListTile(
                 title: Text(
@@ -144,10 +138,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
                 trailing: Icon(Icons.compare_arrows),
-                onTap: () => Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => OwosellScreen())),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => OwosellScreen())),
               ),
-
               ListTile(
                 title: Text(
                   'Profile',
@@ -195,9 +188,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 trailing: Icon(Icons.notifications),
-                onTap: () => Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => NotificationScreen())),
-
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => NotificationScreen())),
               ),
               ListTile(
                 title: Text(
@@ -213,27 +205,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         backgroundColor: Colors.white,
         key: _scafflodKey,
-
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
               icon: Icon(Icons.menu),
               iconSize: 30.0,
               color: Colors.black,
-              onPressed: () => _scafflodKey.currentState.openDrawer() ),
+              onPressed: () => _scafflodKey.currentState.openDrawer()),
           title: Text(
             'Owomark',
-            style: TextStyle(color: Colors.black,),
+            style: TextStyle(
+              color: Colors.black,
+            ),
             textAlign: TextAlign.center,
             //textAlign: TextAlign.center,
           ),
           elevation: 4.0,
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.search),
-                iconSize: 30.0,
-                color: Colors.grey,
-               ),
+              icon: Icon(Icons.search),
+              iconSize: 30.0,
+              color: Colors.grey,
+            ),
             IconButton(
                 icon: Icon(Icons.shopping_cart),
                 iconSize: 30.0,
@@ -252,52 +245,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: <Widget>[
               notifications.length == 0
                   ? Center(
-                child: Text(
-                  "No Data Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              )
-                  :Container(
-                height: 115,
-                child: ListView.builder(
-                  itemCount: notifications.length,
-                  scrollDirection: Axis.horizontal,
-
-                  padding: EdgeInsets.only(left: 10.0),
-                  itemBuilder: (BuildContext context, int index) {
-                    final item = notifications[index];
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => Category(panel_id : item.id),
-                        ),
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 35.0,
-                              backgroundImage:NetworkImage(categoryurl+item.imageUrl),
-                            ),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            Text(
-                              item.name,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w400,
+                    )
+                  : Container(
+                      height: 115,
+                      child: ListView.builder(
+                        itemCount: notifications.length,
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.only(left: 10.0),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = notifications[index];
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => Category(panel_id: item.id),
                               ),
                             ),
-                          ],
-                        ),
+                            child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Column(
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    radius: 35.0,
+                                    backgroundImage: NetworkImage(
+                                        categoryurl + item.imageUrl),
+                                  ),
+                                  SizedBox(
+                                    height: 6.0,
+                                  ),
+                                  Text(
+                                    item.name,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
               SizedBox(
                 height: 10,
               ),
@@ -311,14 +305,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                 GestureDetector(
-                   child:  Text("All"),
-                   onTap: ()=> Navigator.push(context,
-                   MaterialPageRoute(
-                     builder: (_)=> ProductsScreen()
-                   )
-                   ),
-                 )
+                  GestureDetector(
+                    child: Text("All"),
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ProductsScreen())),
+                  )
                 ],
               ),
               SizedBox(
@@ -326,27 +317,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               books.length == 0
                   ? Center(
-                child: Text(
-                  "No Data Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ):Container(
-                height: 100,
-                child: ListView.builder(itemCount: books.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context,int index){
-                    final item = books[index];
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 100,
+                      child: ListView.builder(
+                        itemCount: books.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = books[index];
 
-                    return  GestureDetector(
-                      child: makeCategory(
-                          image: producturl+item.imageUrl, title:item.amount),
-                      onTap: ()=> Navigator.push(context, MaterialPageRoute(
-                          builder: (_)=>SingleProduct(product_id: item.id,)
-                      )),
-                    );
-
-                  },),
-              ),
+                          return GestureDetector(
+                            child: makeCategory(
+                                image: producturl + item.imageUrl,
+                                title: item.amount),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SingleProduct(
+                                          product_id: item.id,
+                                        ))),
+                          );
+                        },
+                      ),
+                    ),
               SizedBox(
                 height: 40,
               ),
@@ -360,7 +358,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-
                 ],
               ),
               SizedBox(
@@ -368,27 +365,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               deals.length == 0
                   ? Center(
-                child: Text(
-                  "No Data Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ):Container(
-                  height: 100,
-                  child: ListView.builder(itemCount: deals.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context,int index){
-                      final item = deals[index];
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 100,
+                      child: ListView.builder(
+                        itemCount: deals.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = deals[index];
 
-                      return  GestureDetector(
-                        child: makeBestCategory(
-                            image: producturl+item.imageUrl, title:item.discount),
-                        onTap: ()=> Navigator.push(context, MaterialPageRoute(
-                            builder: (_)=>SingleProduct(product_id: item.id,)
-                        )),
-                      );
-
-                    },),
-              ),
+                          return GestureDetector(
+                            child: makeBestCategory(
+                                image: producturl + item.imageUrl,
+                                title: item.discount),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SingleProduct(
+                                          product_id: item.id,
+                                        ))),
+                          );
+                        },
+                      ),
+                    ),
               SizedBox(
                 height: 40,
               ),
@@ -403,12 +407,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    child:  Text("All"),
-                    onTap: ()=> Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (_)=> Institute()
-                        )
-                    ),
+                    child: Text("All"),
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => Institute())),
                   )
                 ],
               ),
@@ -417,29 +418,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               institutes.length == 0
                   ? Center(
-                child: Text(
-                  "No Data Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ):Container(
-                height: 130,
-                child: GestureDetector(
-                  child:ListView.builder(itemCount: institutes.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context,int index){
-                      final item = institutes[index];
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 130,
+                      child: GestureDetector(
+                        child: ListView.builder(
+                          itemCount: institutes.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = institutes[index];
 
-                      return makeInstitute(
-                          image: insturl+item.imageUrl, title: item.name);
-
-                    },),
-                  onTap: ()=> Navigator.push(context,
-                      MaterialPageRoute(
-                          builder: (_)=> SingleInstitute()
-                      )
-                  ),
-                )
-              ),
+                            return makeInstitute(
+                                image: insturl + item.imageUrl,
+                                title: item.name);
+                          },
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => SingleInstitute())),
+                      )),
               SizedBox(
                 height: 40,
               ),
@@ -454,12 +457,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    child:
-                    Text("All"),
-                    onTap:()=> Navigator.push(context,
-                    MaterialPageRoute(
-                      builder: (_)=> EventScreen()
-                    )),
+                    child: Text("All"),
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => EventScreen())),
                   )
                 ],
               ),
@@ -468,27 +468,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               events.length == 0
                   ? Center(
-                child: Text(
-                  "No Data Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ):Container(
-                height: 130,
-                child: GestureDetector(
-                  child: ListView.builder(itemCount: events.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context,int index){
-                      final item = events[index];
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 130,
+                      child: ListView.builder(
+                        itemCount: events.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = events[index];
 
-                      return makeActivity(
-                          image: eventurl+item.imageUrl, title: item.name);
-
-                    },),
-                  onTap:()=> Navigator.push(context, MaterialPageRoute(
-                    builder: (_) => SingleEvent()
-                  )),
-                )
-              ),
+                          return GestureDetector(
+                            child: makeActivity(
+                                image: eventurl + item.imageUrl,
+                                title: item.name),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SingleEvent(
+                                          event_id: item.id,
+                                        ))),
+                          );
+                        },
+                      )),
               SizedBox(
                 height: 40,
               ),
@@ -503,12 +509,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    child:
-                    Text("All"),
-                    onTap:()=> Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (_)=> Competitions()
-                        )),
+                    child: Text("All"),
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => Competitions())),
                   )
                 ],
               ),
@@ -517,27 +520,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               competitions.length == 0
                   ? Center(
-                child: Text(
-                  "No Competition Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ):Container(
-                height: 130,
-                child: GestureDetector(
-                  child: ListView.builder(itemCount: competitions.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context,int index){
-                      final item = competitions[index];
+                      child: Text(
+                        "No Competition Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 130,
+                      child: GestureDetector(
+                        child: ListView.builder(
+                          itemCount: competitions.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = competitions[index];
 
-                      return makepg(
-                          image: compurl+item.imageUrl, title: item.name);
-
-                    },),
-                  onTap:()=> Navigator.push(context, MaterialPageRoute(
-                    builder: (_)=> NewsFeed()
-                  )),
-                )
-              ),
+                            return makepg(
+                                image: compurl + item.imageUrl,
+                                title: item.name);
+                          },
+                        ),
+                        onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => NewsFeed())),
+                      )),
               SizedBox(
                 height: 40,
               ),
@@ -552,12 +557,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    child:  Text("All"),
-                    onTap: ()=> Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (_)=> Projects()
-                        )
-                    ),
+                    child: Text("All"),
+                    onTap: () => Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => Projects())),
                   )
                 ],
               ),
@@ -566,27 +568,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               projects.length == 0
                   ? Center(
-                child: Text(
-                  "No Projects Found",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ): Container(
-                height: 130,
-                child: ListView.builder(itemCount: projects.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context,int index){
-                    final item = projects[index];
+                      child: Text(
+                        "No Projects Found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  : Container(
+                      height: 130,
+                      child: ListView.builder(
+                        itemCount: projects.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = projects[index];
 
-                    return makeProject(
-                        image: projurl+item.imageUrl, title: item.name);
-
-                  },),
-              ),
+                          return makeProject(
+                              image: projurl + item.imageUrl, title: item.name);
+                        },
+                      ),
+                    ),
             ],
           ),
         ));
   }
-
 
   @override
   void initState() {
@@ -606,8 +610,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getNotification('1');
 
     response.then((action) async {
-
-     // print(action.toString());
+      // print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
         if (data["status"] == "200") {
@@ -634,7 +637,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getDeals('1');
 
     response.then((action) async {
-
       // print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
@@ -662,7 +664,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getProjects('1');
 
     response.then((action) async {
-
       // print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
@@ -690,8 +691,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getCompetition('1');
 
     response.then((action) async {
-
-       //print(action.toString());
+      //print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
         if (data["status"] == "200") {
@@ -710,7 +710,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-
   //Books Api
 
   getDashboardBooks(context) async {
@@ -719,8 +718,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getDashboardBooks('1');
 
     response.then((action) async {
-
-     // print(action.toString());
+      // print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
         if (data["status"] == "200") {
@@ -739,7 +737,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-
   //Events API
 
   getDashboardEvents(context) async {
@@ -748,7 +745,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getDashboardEvents('1');
 
     response.then((action) async {
-
       //print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
@@ -774,7 +770,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Future<dynamic> response = apiInterface.getInstitutes('1');
 
     response.then((action) async {
-
       print(action.toString());
       if (action != null) {
         Map data = jsonDecode(action.toString());
@@ -793,8 +788,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print(value);
     });
   }
-
-
 
   Widget makeCategory({String image, String title}) {
     return AspectRatio(
@@ -865,7 +858,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(0),
             image:
-            DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)),
         child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -877,7 +870,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                title+" % Off",
+                title + " % Off",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

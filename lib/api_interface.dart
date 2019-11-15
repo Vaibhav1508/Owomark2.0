@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 
 class ApiInterface {
   Response response;
@@ -44,7 +41,23 @@ class ApiInterface {
   getDashboardEvents(String userId) async {
     Map<String, dynamic> data = new Map();
     data['user_id'] = 'id';
-    response = await dio.post(baseUrl + "/getEvents",
+    response =
+        await dio.post(baseUrl + "/getEvents", data: data, options: options);
+    return response;
+  }
+
+  getEvents(String userId) async {
+    Map<String, dynamic> data = new Map();
+    data['user_id'] = 'id';
+    response =
+        await dio.post(baseUrl + "/getAllEvents", data: data, options: options);
+    return response;
+  }
+
+  getSingleEvent(String userId) async {
+    Map<String, dynamic> data = new Map();
+    data['event_id'] = userId;
+    response = await dio.post(baseUrl + "/getSingleEvent",
         data: data, options: options);
     return response;
   }
@@ -60,16 +73,16 @@ class ApiInterface {
   getDeals(String userId) async {
     Map<String, dynamic> data = new Map();
     data['user_id'] = 'id';
-    response = await dio.post(baseUrl + "/getBestDeals",
-        data: data, options: options);
+    response =
+        await dio.post(baseUrl + "/getBestDeals", data: data, options: options);
     return response;
   }
 
   getProjects(String userId) async {
     Map<String, dynamic> data = new Map();
     data['user_id'] = 'id';
-    response = await dio.post(baseUrl + "/getProjects",
-        data: data, options: options);
+    response =
+        await dio.post(baseUrl + "/getProjects", data: data, options: options);
     return response;
   }
 
@@ -100,8 +113,8 @@ class ApiInterface {
   getCategory(String panelId) async {
     Map<String, dynamic> data = new Map();
     data['panel_id'] = panelId;
-    response = await dio.post(baseUrl + "/getCategory",
-        data: data, options: options);
+    response =
+        await dio.post(baseUrl + "/getCategory", data: data, options: options);
     return response;
   }
 
@@ -116,8 +129,8 @@ class ApiInterface {
   getProducts(String subId) async {
     Map<String, dynamic> data = new Map();
     data['sub_id'] = subId;
-    response = await dio.post(baseUrl + "/getProducts",
-        data: data, options: options);
+    response =
+        await dio.post(baseUrl + "/getProducts", data: data, options: options);
     return response;
   }
 
@@ -129,14 +142,11 @@ class ApiInterface {
     return response;
   }
 
-
   getCart(String subId) async {
     Map<String, dynamic> data = new Map();
     data['user_id'] = subId;
-    response = await dio.post(baseUrl + "/getUserCart",
-        data: data, options: options);
+    response =
+        await dio.post(baseUrl + "/getUserCart", data: data, options: options);
     return response;
   }
-
-
 }
