@@ -13,8 +13,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             iconSize: 30.0,
@@ -26,12 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )),
         title: Text(
-          'Chats',
+          'Messages',
+          style: TextStyle(color: Colors.black),
           //textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-          ),
         ),
         elevation: 3.0,
         actions: <Widget>[

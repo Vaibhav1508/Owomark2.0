@@ -1,3 +1,4 @@
+import 'package:owomark/models/category_item.dart';
 import 'package:owomark/models/user_model.dart';
 
 class Message {
@@ -24,6 +25,34 @@ final User currentUser = User(
   imageUrl: 'assets/images/greg.jpg',
 );
 
+//Category
+/*
+final Category quiz = Category(
+  id: "1",
+  name: 'Owoquiz',
+  imageUrl: 'assets/images/clothes.jpg',
+);
+
+final Category friday = Category(
+  id: "1",
+  name: 'Friday',
+  imageUrl: 'assets/images/glass.jpg',
+);
+
+final Category books = Category(
+  id: "1",
+  name: 'Books',
+  imageUrl: 'assets/images/clothes.jpg',
+);
+
+final Category wallet = Category(
+  id: "1",
+  name: 'Wallet',
+  imageUrl: 'assets/images/glass.jpg',
+);
+
+
+ */
 //Users
 
 final User greg = User(
@@ -68,9 +97,16 @@ final User steven = User(
   imageUrl: 'assets/images/steven.jpg',
 );
 
+
+
 //FAVIOURITE CONTACTS
 
 List<User> favourite = [sam, olivia, sophia, steven, john];
+
+
+//Categories
+
+//List<Category> category = [quiz,books,friday,wallet];
 
 List<Message> chats = [
   Message(
